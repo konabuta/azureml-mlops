@@ -71,11 +71,11 @@ jobs:
         with:
           # Specify the script here
           inlineScript: az account show -o table
-       - name: Download Metadata (From Training)
-         uses: actions/download-artifact@v2
-         with:
-           name: metadata-train
-           path: .
+      - name: Download Metadata (From Training)
+        uses: actions/download-artifact@v2
+        with:
+          name: metadata-train
+          path: .
       - name: AzureML CLI Extension
         run: az extension add -n azure-cli-ml
       - name: Deploy to ACI
