@@ -1,0 +1,9 @@
+{
+    "entryScript": "score.py",
+    "runtime": "python",
+    "extraDockerfileSteps": null,
+    "sourceDirectory": "deploy",
+    "enableGpu": false,
+    "baseImage": null,
+    "baseImageRegistry": null
+}
