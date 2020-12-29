@@ -2,16 +2,8 @@ name: MLOps-CICD
 
 on:
   push:
-    branches:
-      - master
-    paths:
-      - 'code/*'
+    branches: [ main ]
   workflow_dispatch:
-    inputs:
-      パラメーター名:
-        description: 'サンプルの Github Actions です。'
-        required: true
-        default: 'Default values'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -62,4 +54,4 @@ jobs:
       - name: AzureML CLI Extension
         run: az extension add -n azure-cli-ml
       - name: Deploy to ACI
-        run: az ml model deploy -n diabetes -f registeredmodel.json --ic $GITHUB_WORKSPACE/deploy/inferenceConfig.json --dc $GITHUB_WORKSPACE/deploy/aciDeploymentConfig.yml -e diabetes-env --overwrite
+        run: az ml model deploy -n diabetes -f registeredmodel.json --ic deploy/inferenceConfig.json --dc deploy/aciDeploymentConfig.yml -e diabetes-env --overwrite
