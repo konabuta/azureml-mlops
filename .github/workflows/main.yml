@@ -50,3 +50,5 @@ jobs:
         run: az ml folder attach -w azureml -g azureml
       - name: Model Training
         run: az ml run submit-script -c diabetes -e titanic-exp  --path $GITHUB_WORKSPACE --source-directory $GITHUB_WORKSPACE/train -t runoutput.json train-diabetes.py
+      - name: Model Registry
+        run: az ml model register -n diabetes-model -f runoutput.json --asset-path "outputs/diabetes-model.pkl" -t registeredmodel.json
