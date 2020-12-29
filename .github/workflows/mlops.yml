@@ -2,9 +2,8 @@ name: MLOps CICD
 
 on:
   push:
-    branches: [ actions-dev ]
+    branches: [ main ]
   workflow_dispatch:
-    branches: [ actions-dev ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
