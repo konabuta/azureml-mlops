@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ''''''
 # Microsoft MLOps サンプルコードを参考
 # https://github.com/microsoft/MLOps/blob/master/examples/cli-train-deploy/generate-runconfig.py
@@ -13,11 +14,13 @@ dataset = Dataset.get_by_name(ws, 'diabetesData')
 input_name = 'diabetesData'
 compute_name = 'cpuclusters'
 
-run_config = RunConfiguration()
+src = ScriptRunConfig(
+    source_directory='train',
+    script='train-diabetes.py',
+)
 
-run_config.framework = 'python'
-run_config.environment = conda_env
-run_config.target = compute_name
+src.run_config.framework = 'python'
+src.run_config.environment = conda_env
+src.run_config.target = compute_name
 
-
-run_config.save(name='diabetes.runconfig', separate_environment_yaml=True)
+get_run_config_from_script_run(src).save(name='diabetes.runconfig')
