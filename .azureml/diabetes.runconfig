@@ -1,5 +1,5 @@
 # The script to run.
-script:
+script: train-diabetes.py
 # The arguments to the script file.
 arguments: []
 # The name of the compute target to use for this run.
@@ -9,7 +9,7 @@ framework: python
 # Communicator for the given framework. Allowed values are "None" ,  "ParameterServer", "OpenMpi", and "IntelMpi".
 communicator: None
 # Maximum allowed duration for the run.
-maxRunDurationSeconds:
+maxRunDurationSeconds: 2592000
 # Number of nodes to use for running job.
 nodeCount: 1
 # Environment details.
