@@ -52,3 +52,5 @@ jobs:
         run: az ml run submit-script -c diabetes -e titanic-exp  --path $GITHUB_WORKSPACE --source-directory $GITHUB_WORKSPACE/train -t runoutput.json train-diabetes.py
       - name: Model Registry
         run: az ml model register -n diabetes-model -f runoutput.json --asset-path "outputs/diabetes-model.pkl" -t registeredmodel.json
+      - name: Deploy to ACI
+        run: az ml model deploy -n diabetes -f registeredmodel.json --ic $GITHUB_WORKSPACE/deploy/inferenceConfig.json --dc $GITHUB_WORKSPACE/deploy/aciDeploymentConfig.yml -e diabetes-env
