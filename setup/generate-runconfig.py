@@ -20,4 +20,4 @@ run_config.environment = conda_env
 run_config.target = compute_name
 
 
-run_config.save(name='diabetes.runconfig', separate_environment_yaml=True)
+run_config.save(name='diabetes.runconfig')
