@@ -14,11 +14,6 @@ dataset = Dataset.get_by_name(ws, 'diabetesData')
 input_name = 'diabetesData'
 compute_name = 'cpuclusters'
 
-src = ScriptRunConfig(
-    source_directory='train',
-    script='train-diabetes.py',
-)
-
 src.run_config.framework = 'python'
 src.run_config.environment = conda_env
 src.run_config.target = compute_name
