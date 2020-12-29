@@ -49,4 +49,4 @@ jobs:
       - name: Attach AzureML Workspace
         run: az ml folder attach -w azureml -g azureml
       - name: Model Training
-        run: az ml run submit-script -c diabetes -e titanic-exp  --path train -t runoutput.json
+        run: az ml run submit-script -c diabetes -e titanic-exp  --path $GITHUB_WORKSPACE/train -t runoutput.json
