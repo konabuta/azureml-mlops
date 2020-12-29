@@ -1,17 +1,17 @@
-name: MLOps CICD
+name: MLOps-CICD
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - master
+    paths:
+      - 'code/*'
   workflow_dispatch:
-    branches: [ actions-dev ]
     inputs:
-      logLevel:
-        description: 'Log level'     
+      パラメーター名:
+        description: 'サンプルの Github Actions です。'
         required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'
+        default: 'Default values'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
