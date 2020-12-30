@@ -1,8 +1,3 @@
-# ''''''
-# Microsoft MLOps サンプルコードを参考
-# https://github.com/microsoft/MLOps/blob/master/examples/cli-train-deploy/generate-runconfig.py
-# ''''''
-
 from azureml.core import RunConfiguration, ScriptRunConfig, Dataset, Workspace, Environment
 from azureml.core.runconfig import Data, DataLocation, Dataset as RunDataset
 from azureml.core.script_run_config import get_run_config_from_script_run
