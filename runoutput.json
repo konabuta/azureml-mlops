@@ -1,0 +1,36 @@
+{
+    "_experiment_name": "titanic-exp",
+    "cancel_uri": "https://japaneast.experiments.azureml.net/execution/v1.0/subscriptions/82a5d8d3-5322-4c49-b9d6-da6e00be5d57/resourceGroups/azureml/providers/Microsoft.MachineLearningServices/workspaces/azureml/experiments/titanic-exp/runId/titanic-exp_1609332430_a355e472/cancel",
+    "created_by": {
+        "user_name": "Keita Onabuta",
+        "user_object_id": "97080511-7d8b-4fe8-8752-5812d05def34",
+        "user_tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+    },
+    "created_utc": "2020-12-30T12:47:12.722653Z",
+    "data_container_id": "dcid.titanic-exp_1609332430_a355e472",
+    "diagnostics_uri": "https://japaneast.experiments.azureml.net/execution/v1.0/subscriptions/82a5d8d3-5322-4c49-b9d6-da6e00be5d57/resourceGroups/azureml/providers/Microsoft.MachineLearningServices/workspaces/azureml/experiments/titanic-exp/runId/titanic-exp_1609332430_a355e472/diagnostics",
+    "experiment_id": "51ebe2c8-1464-48fc-b8c7-0baffa7439c3",
+    "hidden": false,
+    "properties": {
+        "ContentSnapshotId": "8b48c13f-4948-4579-b9d0-c3bc143bde48",
+        "_azureml.ComputeTargetType": "amlcompute",
+        "azureml.git.branch": "actions-dev",
+        "azureml.git.commit": "32899a88f02420810db0fade837fb097abf2c045",
+        "azureml.git.dirty": "False",
+        "azureml.git.repository_uri": "https://github.com/konabuta/azureml-mlops",
+        "mlflow.source.git.branch": "actions-dev",
+        "mlflow.source.git.commit": "32899a88f02420810db0fade837fb097abf2c045",
+        "mlflow.source.git.repoURL": "https://github.com/konabuta/azureml-mlops"
+    },
+    "root_run_id": "titanic-exp_1609332430_a355e472",
+    "root_run_uuid": "8538519f-97d4-46c7-bb87-c84a07e89a5f",
+    "run_id": "titanic-exp_1609332430_a355e472",
+    "run_number": 15,
+    "run_type": "azureml.scriptrun",
+    "run_uuid": "8538519f-97d4-46c7-bb87-c84a07e89a5f",
+    "script_name": "train-diabetes.py",
+    "status": "Completed",
+    "tags": {},
+    "target": "cpuclusters",
+    "user_id": "97080511-7d8b-4fe8-8752-5812d05def34"
+}
