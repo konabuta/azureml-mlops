@@ -3,9 +3,9 @@ script:
 # The arguments to the script file.
 arguments: []
 # The name of the compute target to use for this run.
-target: cpuclusters
+target: mlops-ci
 # Framework to execute inside. Allowed values are "Python" ,  "PySpark", "CNTK",  "TensorFlow", and "PyTorch".
-framework: python
+framework: Python
 # Communicator for the given framework. Allowed values are "None" ,  "ParameterServer", "OpenMpi", and "IntelMpi".
 communicator: None
 # Maximum allowed duration for the run.
@@ -15,16 +15,16 @@ nodeCount: 1
 # Environment details.
 environment:
 # Environment name
-  name: diabetes-env
+  name:
 # Environment version
-  version: '9'
+  version:
 # Environment variables set for the run.
   environmentVariables:
     EXAMPLE_ENV_VAR: EXAMPLE_VALUE
 # Python details
   python:
 # user_managed_dependencies=True indicates that the environmentwill be user managed. False indicates that AzureML willmanage the user environment.
-    userManagedDependencies: true
+    userManagedDependencies: false
 # The python interpreter path
     interpreterPath: python
 # Path to the conda dependencies file to use for this run. If a project
@@ -44,7 +44,7 @@ environment:
 # Set False if necessary to work around shared volume bugs.
     sharedVolumes: true
 # Shared memory size for Docker container. Default is 2g.
-    shmSize:
+    shmSize: 2g
 # Extra arguments to the Docker run command.
     arguments: []
 # Image registry that contains the base image.
