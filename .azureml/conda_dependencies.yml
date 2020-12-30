@@ -1,19 +1,16 @@
-# Conda environment specification. The dependencies defined in this file will
-# be automatically provisioned for runs with userManagedDependencies=False.
-
-# Details about the Conda environment file format:
-# https://conda.io/docs/user-guide/tasks/manage-environments.html#create-env-file-manually
-
-name: project_environment
-dependencies:
-  # The python interpreter version.
-  # Currently Azure ML only supports 3.5.2 and later.
-- python=3.6.2
-
-- pip:
-    # Required packages for AzureML execution, history, and data preparation.
-  - azureml-defaults
-
 channels:
+- defaults
 - anaconda
 - conda-forge
+dependencies:
+- python=3.6
+- pip
+- notebook
+- ipykernel
+- pip:
+  - interpret
+  - matplotlib
+  - azureml-defaults==1.19.0
+  - azureml-core==1.19.0
+  - azureml-widgets==1.19.0
+name: azureml_181610e2763c3ae45d46eb2c0b7a7a6f

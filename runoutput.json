@@ -1,0 +1,36 @@
+{
+    "_experiment_name": "titanic-local",
+    "cancel_uri": "https://japaneast.experiments.azureml.net/execution/v1.0/subscriptions/82a5d8d3-5322-4c49-b9d6-da6e00be5d57/resourceGroups/azureml/providers/Microsoft.MachineLearningServices/workspaces/azureml/experiments/titanic-local/runId/titanic-local_1609334946_59efcf2f/cancel",
+    "created_by": {
+        "user_name": "Keita Onabuta",
+        "user_object_id": "97080511-7d8b-4fe8-8752-5812d05def34",
+        "user_tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+    },
+    "created_utc": "2020-12-30T13:29:08.646823Z",
+    "data_container_id": "dcid.titanic-local_1609334946_59efcf2f",
+    "diagnostics_uri": "https://japaneast.experiments.azureml.net/execution/v1.0/subscriptions/82a5d8d3-5322-4c49-b9d6-da6e00be5d57/resourceGroups/azureml/providers/Microsoft.MachineLearningServices/workspaces/azureml/experiments/titanic-local/runId/titanic-local_1609334946_59efcf2f/diagnostics",
+    "experiment_id": "4f2464be-b533-4d0c-877d-36c80b3f5d20",
+    "hidden": false,
+    "properties": {
+        "ContentSnapshotId": "8b48c13f-4948-4579-b9d0-c3bc143bde48",
+        "_azureml.ComputeTargetType": "amlcompute",
+        "azureml.git.branch": "actions-dev",
+        "azureml.git.commit": "87d4fb6c7e5f45b636ca8fc2a81208c52f5eea03",
+        "azureml.git.dirty": "True",
+        "azureml.git.repository_uri": "https://github.com/konabuta/azureml-mlops",
+        "mlflow.source.git.branch": "actions-dev",
+        "mlflow.source.git.commit": "87d4fb6c7e5f45b636ca8fc2a81208c52f5eea03",
+        "mlflow.source.git.repoURL": "https://github.com/konabuta/azureml-mlops"
+    },
+    "root_run_id": "titanic-local_1609334946_59efcf2f",
+    "root_run_uuid": "25742494-a899-420c-bbc0-43439667ccaa",
+    "run_id": "titanic-local_1609334946_59efcf2f",
+    "run_number": 4,
+    "run_type": "azureml.scriptrun",
+    "run_uuid": "25742494-a899-420c-bbc0-43439667ccaa",
+    "script_name": "train-diabetes.py",
+    "status": "Completed",
+    "tags": {},
+    "target": "cpuclusters",
+    "user_id": "97080511-7d8b-4fe8-8752-5812d05def34"
+}
