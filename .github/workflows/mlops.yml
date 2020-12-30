@@ -25,7 +25,7 @@ jobs:
       - name: Attach AzureML Workspace
         run: az ml folder attach -w azureml -g azureml
       - name: Model Training
-        run: az ml run submit-script -c diabetes -e titanic-exp  --source-directory train -t runoutput.json train-diabetes.py
+        run: az ml run submit-script -c diabetes -e titanic-exp  --path train --source-directory train -t runoutput.json train-diabetes.py
       - name: Model Registry
         run: az ml model register -n diabetes-model -f runoutput.json --asset-path "outputs/diabetes-model.pkl" -t registeredmodel.json
       - name: Store Metadata
