@@ -13,9 +13,11 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}  
-      #- name: Azure CLI Action
-      #  uses: Azure/cli@1.0.4
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure CLI Action
+        uses: Azure/cli@1.0.4
+        with:
+          inlineScript: az account show -o table
       - name: Check Azure Subscription
         run: az account show -o table
       - name: AzureML CLI Extension
@@ -30,7 +32,10 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: metadata-train
-          path: registeredmodel.json
+          path: |
+            runoutput.json
+            registeredmodel.json
+
   staging:
     runs-on: ubuntu-latest
     needs: [build]
@@ -43,7 +48,6 @@ jobs:
       - name: Azure CLI Action
         uses: Azure/cli@1.0.4
         with:
-          # Specify the script here
           inlineScript: az account show -o table
       - name: Download Metadata (From Training)
         uses: actions/download-artifact@v2
@@ -67,7 +71,6 @@ jobs:
       - name: Azure CLI Action
         uses: Azure/cli@1.0.4
         with:
-          # Specify the script here
           inlineScript: az account show -o table
       - name: Download Metadata (From Training)
         uses: actions/download-artifact@v2
@@ -77,4 +80,4 @@ jobs:
       - name: AzureML CLI Extension
         run: az extension add -n azure-cli-ml
       - name: Deploy to ACI
-        run: az ml model deploy -n diabetes-productino -f registeredmodel.json --ic deploy/inferenceConfig.json --dc deploy/aciDeploymentConfig.yml -e diabetes-env --overwrite
+        run: az ml model deploy -n diabetes-production -f registeredmodel.json --ic deploy/inferenceConfig.json --dc deploy/aciDeploymentConfig.yml -e diabetes-env --overwrite
