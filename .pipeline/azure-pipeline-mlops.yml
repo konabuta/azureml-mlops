@@ -1,0 +1,197 @@
+# trigger:
+# - main
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: 'Model_Build'
+  displayName: 'Model Build'
+  jobs:
+  - job: "Model_Build"
+    displayName: "Model Build"
+    timeoutInMinutes: 0
+    steps:
+    - script: echo Hell, MLOps !
+      displayName: 'Run a Hello MLops !'
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.6'
+        addToPath: true
+        architecture: 'x64'
+
+    - script: pip install -r setup/requirements.txt
+      displayName: "install python library"
+
+
+    - task: AzureCLI@2
+      displayName: 'Install AML CLI'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az extension add -n azure-cli-ml'
+
+    - task: AzureCLI@2
+      displayName: 'connect to azureml workspace'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az ml folder attach -w azureml -g azureml'
+
+    - task: AzureCLI@2
+      displayName: 'Code Quality Check'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'flake8 --format junit-xml --output-file lint-testresults.xml --exit-zero --ignore E111'
+        
+    - task: AzureCLI@2
+      displayName: 'Data Quality Check'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'pytest tests/data_test.py --doctest-modules --junitxml=unit-testresults.xml --cov=data_test --cov-report=xml --cov-report=html'
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '*-testresults.xml'
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        testRunTitle: 'Linting & Unit tests'
+      displayName: 'Publish test results'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish coverage report'
+      condition: succeededOrFailed()
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: 'coverage.xml'
+        reportDirectory: 'htmlcov'
+        failIfCoverageEmpty: true
+
+      
+    - task: AzureCLI@2
+      displayName: 'train model'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az ml run submit-script -c diabetes -e diabetes-exp-devops  --source-directory train -t runoutput.json train-diabetes.py'
+
+    - task: AzureCLI@2
+      displayName: 'register trained model'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az ml model register -n diabetes-model -f runoutput.json --asset-path "outputs/diabetes-model.pkl" -t registeredmodel.json'
+    - task: CopyFiles@2
+      inputs:
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: 'Deploy_Staging'
+  displayName: 'Deploy to Staging'
+  jobs:
+  - job: "Deploy_Staging"
+    displayName: "Deploy to Staging"
+    timeoutInMinutes: 0
+    steps:
+    - download: none
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+        
+    - task: AzureCLI@1
+      displayName: 'Install AzureML CLI'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az extension add -n azure-cli-ml'
+        workingDirectory: '$(Build.SourcesDirectory)'
+    - task: AzureCLI@2
+      displayName: 'Deploy to staging'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az ml model deploy -n diabetes-stage -f registeredmodel.json --ic deploy/inferenceConfig.json --dc deploy/aciDeploymentConfig.yml -e diabetes-env --overwrite'
+        workingDirectory: '$(System.ArtifactsDirectory)/drop'
+
+- stage: 'Deploy_Production1'
+  displayName: 'Deploy to Production1'
+  dependsOn: 'Deploy_Staging'
+  condition: succeeded()
+  jobs:
+  - job: "Deploy_Production1"
+    displayName: "Deploy to Production1"
+    timeoutInMinutes: 0
+    steps:
+    - download: none
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+        
+    - task: AzureCLI@1
+      displayName: 'Install AzureML CLI'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az extension add -n azure-cli-ml'
+        workingDirectory: '$(Build.SourcesDirectory)'
+    - task: AzureCLI@2
+      displayName: 'Deploy to production1'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az ml model deploy -n diabetes-prod1 -f registeredmodel.json --ic deploy/inferenceConfig.json --dc deploy/aciDeploymentConfig.yml -e diabetes-env --overwrite'
+        workingDirectory: '$(System.ArtifactsDirectory)/drop'
+
+
+- stage: 'Deploy_Production2'
+  displayName: 'Deploy to Production2'
+  dependsOn: 'Deploy_Staging'
+  condition: succeeded()
+  jobs:
+  - job: "Deploy_Production2"
+    displayName: "Deploy to Production2"
+    timeoutInMinutes: 0
+    steps:
+    - download: none
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+        
+    - task: AzureCLI@1
+      displayName: 'Install AzureML CLI'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az extension add -n azure-cli-ml'
+        workingDirectory: '$(Build.SourcesDirectory)'
+    - task: AzureCLI@2
+      displayName: 'Deploy to production2'
+      inputs:
+        azureSubscription: 'azureml-workspace-con'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az ml model deploy -n diabetes-prod2 -f registeredmodel.json --ic deploy/inferenceConfig.json --dc deploy/aciDeploymentConfig.yml -e diabetes-env --overwrite'
+        workingDirectory: '$(System.ArtifactsDirectory)/drop'

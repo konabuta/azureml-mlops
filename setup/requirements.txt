@@ -1,0 +1,9 @@
+pandas
+numpy
+pytest
+pytest-cov
+flake8
+flake8_formatter_junit_xml
+azure-cli
+azureml-core==1.19.0
+azureml-dataprep[fuse,pandas]

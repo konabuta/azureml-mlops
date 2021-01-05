@@ -1,0 +1,4 @@
+{
+    "entryScript": "score.py",
+    "sourceDirectory": "deploy",
+}

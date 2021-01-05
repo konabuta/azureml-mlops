@@ -1,0 +1,16 @@
+name: diabetes-env
+channels:
+  - defaults
+  - anaconda
+  - conda-forge
+dependencies:
+  - python=3.6
+  - pip
+  - notebook
+  - ipykernel
+  - pip:
+    - interpret
+    - matplotlib
+    - azureml-defaults==1.19.0
+    - azureml-core==1.19.0
+    - azureml-widgets==1.19.0
