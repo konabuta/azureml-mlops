@@ -1,3 +1,4 @@
+import os
 from azureml.core import RunConfiguration, Workspace, Environment
 
 ws = Workspace.from_config()
@@ -10,5 +11,6 @@ run_config.framework = 'python'
 run_config.environment = conda_env
 run_config.target = compute_name
 
-
-run_config.save(name='diabetes.runconfig')
+#リポジトリ直下から実行
+os.makedirs("./.azureml", exist_ok=True)
+run_config.save(name='diabetes.runconfig', path="./")
