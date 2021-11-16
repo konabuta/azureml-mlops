@@ -17,8 +17,8 @@ jobs:
       - name: Azure CLI Action
         uses: Azure/cli@1.0.4
         with:
-          inlineScript: az account show -o table
           azcliversion: 2.29.0
+          inlineScript: az account show -o table
       - name: Check Azure Subscription
         run: az account show -o table
       - name: AzureML CLI Extension
