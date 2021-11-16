@@ -23,6 +23,8 @@ jobs:
         run: az account show -o table
       - name: AzureML CLI Extension
         run: az extension add -n azure-cli-ml
+      - name: AzureML CLI Version
+        run: az --version
       - name: Attach AzureML Workspace
         run: az ml folder attach -w azureml -g azureml
       - name: Model Training
